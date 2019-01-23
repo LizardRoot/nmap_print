@@ -34,7 +34,7 @@ read -p "Input 1 or 4 ports, if you want to enter more than four ports, click 'm
 echo ""
 
 if [ "$a" == 1 ]; then 
-	read -p "Specify port number: " q
+	read -p "Specify port number (without spaces): " q
 		echo ""
 		echo "Scan port $q started"
 		echo ""
