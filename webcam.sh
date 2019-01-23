@@ -27,7 +27,8 @@ function dow {
 	echo -ne '#########################                          (50%)\r'
 	sleep 0.5
 			}
-
+echo ""
+read -p "Save the result to: " result
 echo ""
 read -p "Input 1 or 4 ports, if you want to enter more than four ports, click 'more': " a
 echo ""
@@ -37,12 +38,10 @@ if [ "$a" == 1 ]; then
 		echo ""
 		echo "Scan port $q started"
 		echo ""
-		echo "Ip-addresses are stored in a file result.txt"
+		echo "Ip-addresses are stored in a file: $result"
 		time=$(date +%s)
 		echo ""
 		dow
-		echo ""
-		
 		nmap -iL ips.txt -p $q --open > done.txt
 
 elif [ "$a" == 2 ]; then
@@ -51,11 +50,10 @@ elif [ "$a" == 2 ]; then
 		echo ""
 		echo "Scan ports $w and $e started"
 		echo ""
-		echo "Ip-addresses are stored in a file result.txt"
+		echo "Ip-addresses are stored in a file: $result"
 		time=$(date +%s)
 		echo ""
 		dow
-		echo ""
 		nmap -iL ips.txt -p $w $e --open > done.txt
 	
 elif [ "$a" == 3 ]; then
@@ -65,12 +63,10 @@ elif [ "$a" == 3 ]; then
 		echo ""
 		echo "Scan ports $a , $s and $d started"
 		echo ""
-		echo "Ip-addresses are stored in a file result.txt"
+		echo "Ip-addresses are stored in a file: $result"
 		time=$(date +%s)
 		echo ""
 		dow
-		echo ""
-		
 		nmap -iL ips.txt -p $a $s $d --open > done.txt
 		
 
@@ -82,16 +78,11 @@ elif [ "$a" == 4 ]; then
 		echo ""
 		echo "Scan ports $z, $x, $c and $v started"
 		echo ""
-		echo "Ip-addresses are stored in a file result.txt"	
+		echo "Ip-addresses are stored in a file: $result"	
 		time=$(date +%s)
 		echo ""
 		dow
-		echo ""
-		echo ""
 		nmap -iL ips.txt -p $z $x $c $v --open > done.txt	
-			echo ""
-			dow
-			echo ""
 
 elif [ "$a" == more ]; then 
 	read -p "Enter the number of ports: " select
@@ -105,10 +96,9 @@ elif [ "$a" == more ]; then
 	echo "Scan ports ${ports[*]} started"
 	time=$(date +%s)
 	echo ""
-	echo "Ip-addresses are stored in a file result.txt"
+	echo "Ip-addresses are stored in a file: $result"
 	echo ""
 	dow
-	echo ""
 	nmap -iL ips.txt -p ${ports[*]} --open > done.txt
 	
 fi
@@ -120,7 +110,7 @@ sleep 0.5
 echo -ne '########################################           (80%)\r'
 sleep 0.2
 
-grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' done.txt > result.txt
+grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' done.txt > $result
 
 echo -ne '#############################################      (90%)\r'
 sleep 0.2
@@ -132,7 +122,7 @@ echo -ne '\n'
 echo ""
 echo "Result:"
 echo ""
-cat result.txt | awk '{split($0,a,":"); print a[1]}' | sort -u
+cat $result | awk '{split($0,a,":"); print a[1]}' | sort -u
 echo ""
 echo "Scan was running $(($(date +%s)-$time)) second."
 echo ""
